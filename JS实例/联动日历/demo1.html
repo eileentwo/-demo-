@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			input {
+				margin-top: 50px;
+				margin-bottom: 10px;
+			}
+			#div1 {
+				width: 1000px;
+				height: 800px;
+				/*margin: 50px auto;*/
+			}
+			#nowTime,
+			#nextTime {
+				float: left;
+				width: 480px;
+				margin-left: 10px;
+			}
+			.title {
+				width: 480px;
+				height: 48px;
+				line-height: 48px;
+				background-color: #00A1F5;
+				color: #fff;
+				font-size: 16px;`
+			}
+			.l {
+				float: left;
+				margin: 0 10px;
+			}
+			.r {
+				float: right;
+				margin: 0 10px;
+			}
+			.c {
+				width: 400px;
+				text-align: center;
+			}
+			#div1 table {
+				border:1px solid #00EEFF;
+			}
+			#div1 td,
+			#div1 th {
+				border:1px solid #00EEFF;
+				font-size: 16px;
+				width:80px;
+				line-height: 1.8;
+				text-align: center;
+			}
+			#div1 th {
+				line-height: 2;
+			}
+			#div1 p,
+			#div1 .red{
+				color: red;
+			}
+			#div1 .blue {
+				color: blue;
+			}
+		</style>
+		
+		<script type="text/javascript">
+			window.onload = function(){
+				var aInp = document.getElementsByTagName('input');
+				var oDiv = document.getElementById('div1');
+				var bBtn = true;
+				var oNowTime = document.getElementById('nowTime');
+				var oNextTime = document.getElementById('nextTime');
+				
+				var aTd = oDiv.getElementsByTagName('td');
+				var aNowSpan = oNowTime.getElementsByTagName('span');
+				var aNextSpan = oNextTime.getElementsByTagName('span');
+				
+				aInp[2].onclick = function(){
+					var oDate = new Date();
+					
+					if(bBtn){
+						oDiv.style.display = 'block';
+						
+						if(oDate.getMonth()+1 ==12){
+							showDate(oNowTime, oDate.getFullYear(), oDate.getMonth()+1 , true);
+							showDate(oNextTime,oDate.getFullYear()+1,1);
+						}else{
+							showDate(oNowTime,oDate.getFullYear(),oDate.getMonth()+1,true);
+							showDate(oNextTime, oDate.getFullYear(), oDate.getMonth()+2,false);
+						}
+						showColor(oDate.getDate());//oDate.getDate()获取当前日期
+						showBtn();
+						showClick();
+						hideLastTr();
+					}else{
+						oDiv.style.display = 'none';
+					}
+					bBtn = !bBtn ;
+				};
+				function showBtn(){
+					var leftMonth =parseInt( aNowSpan[0].innerHTML);
+					var leftYear =parseInt( aNowSpan[1].innerHTML);
+					var rightMonth =parseInt( aNextSpan[0].innerHTML);
+					var rightYear =parseInt( aNextSpan[1].innerHTML);
+					
+					aNowSpan[0].parentNode.onclick = function(){
+						if(leftMonth ==12){//月份联动
+							showDate(oNowTime,leftYear-1,leftMonth,true);
+							showDate(oNextTime,leftYear,1);
+						}else{
+							
+						showDate(oNowTime,leftYear,leftMonth,true);
+						showDate(oNextTime,leftYear,leftMonth+1);
+						}
+						showBtn();
+						showColor(new Date().getDate());
+//						showClick();
+						hideLastTr();
+					}
+					aNextSpan[0].parentNode.onclick = function(){
+						if(rightMonth ==1){//月份联动
+							showDate(oNowTime,rightYear,12,true);
+							showDate(oNextTime,rightYear+1,rightMonth);
+						}else{
+							showDate(oNowTime,rightYear,rightMonth-1,true);
+							showDate(oNextTime,rightYear,rightMonth);
+						}
+						showBtn();
+						showColor(new Date().getDate());
+//						showClick();
+						hideLastTr();
+					}
+				};
+				function showClick(){
+					var re = /(\d+)(<p>*)/;
+					var oDate= new Date();
+					for (var i=0; i<aTd.length;i++) {
+						aTd[i].index=i;
+//					console.log(aTd[i])
+						aTd[i].onclick = function(){
+							if(this.className == 'red' || this.className == 'blue'){
+								if(this.index > aTd.length /2){
+									if(oDate.getMonth()+2==1){//判断当前月是否为1月，如果是，年份需要+1
+										this.innerHTML.replace(re,function($0,$1){
+											aInp[0].value= oDate.getFullYear()+1 + '-' +(oDate.getMonth()+2) + '-'+ $1;
+										})
+									}
+									
+									this.innerHTML.replace(re,function($0,$1){
+										aInp[0].value= oDate.getFullYear() + '-' +(oDate.getMonth()+2) + '-'+ $1;
+									})
+								}else{
+									this.innerHTML.replace(re,function($0,$1){
+										aInp[0].value= oDate.getFullYear() + '-' +(oDate.getMonth()+1) + '-'+ $1;
+									})
+								}
+								if(this.getElementsByTagName('p')[0]){
+									aInp[1].value = this.getElementsByTagName('p')[0].innerHTML;
+								}else{
+									aInp[1].value = ''
+								}
+								oDiv.style.display='none';
+								bBtn = true;
+							}
+						}
+					}
+				};
+				function hideLastTr(){
+					var bBtn=true;
+					var bBtn2=true;
+					
+					for (var i=35; i<42; i++) {
+						if(aTd[i].innerHTML !=''){
+							bBtn=false;
+						}
+					};
+					if(bBtn){
+						for (var i=35; i<42; i++) {
+							aTd[i].style.display='none';
+						}
+					}else{
+						for (var i=35; i<42; i++) {
+							aTd[i].style.display='';
+						}
+					};
+					for (var i=77; i<84; i++) {
+						if(aTd[i].innerHTML !=''){
+							bBtn2=false;
+						}
+					}
+					if(bBtn2){
+						for (var i=77; i<84; i++) {
+							aTd[i].style.display='none';
+						}
+					}else{
+						for (var i=77; i<84; i++) {
+							aTd[i].style.display='';
+						}
+					}
+				}
+				function showColor(date){
+					var result = [];  //先获取有日期的td
+					var oDate = new Date(); //获取当前时间
+					var re= new RegExp('' + date + '(<p>)*'); //判断是否有p标签
+					var bBtn=true;
+					var index=0;
+					
+					for (var i=0; i<aTd.length; i++) {
+						if(aTd[i].innerHTML !=''){
+							result.push(aTd[i]);
+						}
+					}
+					
+					if(aNowSpan[1].innerHTML == oDate.getFullYear() && aNowSpan[2].innerHTML == oDate.getMonth()+1){//判断是不是本月日期
+						for (var i =0; i<result.length; i++) {
+							if(re.test(result[i].innerHTML) && bBtn ){  //用正则来处理是否包含P材，且bBtn判断是不是第一个满足的当前日子
+								 result[i].className = 'red';
+								 index=i;
+								 bBtn=false;
+							}
+						}
+						for (len= index+11; index+1 <len; index++) {  //判断后10天
+							result[index+1].className = 'blue';
+						}
+					}
+					else{
+						for (var i =0; i<result.length; i++) {
+							result[i].className = '';
+						}
+					}
+					
+					
+				}
+				function showDate(obj,year,month,bBtn){
+					var oDate= new Date();
+					var dayNum = 0;
+//					console.log(obj,year,month,bBtn);
+					if(!obj.bBtn){
+						
+						obj.oTitle = document.createElement('div');
+						obj.oTitle.className = 'title';
+						obj.appendChild(obj.oTitle);
+						
+						var oTable = document.createElement('table');
+						var oThead =document.createElement('thead');
+						var oTr =document.createElement('tr');
+//						oTable.style.border='1';
+						oTable.style.cellspacing='0';
+						oTable.style.borderCollapse='collapse';
+						
+						var arr = ['周一','周二','周三','周四','周五','周六','周日'];
+						for (var i=0; i<7; i++) {
+							var oTh =document.createElement('th');
+							oTh.innerHTML = arr[i];
+							if(i==5 || i==6){
+								oTh.className= 'red';
+							}
+							oTr.appendChild(oTh);
+						}
+						oThead.appendChild(oTr);
+						oTable.appendChild(oThead);
+						
+						var oTbody =document.createElement('tbody');
+						for (var i=0; i<6; i++) {
+							var oTr =document.createElement('tr');
+							for (var j=0; j<7; j++) {
+								var oTd=document.createElement('td');
+								oTr.appendChild(oTd);
+							}
+							oTbody.appendChild(oTr);
+						}
+						oTable.appendChild(oTbody);
+						obj.appendChild(oTable);
+						
+						obj.bBtn = true; 
+					}
+					obj.oTitle.innerHTML =
+( bBtn ? '<div class="l"><span>' + (month-1) + '</span>月</div>' : '<div class="r"><span>' + (month+1) + '</span>月</div>') +  '<div class="c"><span>' + year+ '</span>年 <span>'+ month +'</span>月</div>'
+					
+					var aTd = obj.getElementsByTagName('td');  //更新内容，所以要先清空td
+					
+					for (var i=0; i<aTd.length; i++) {
+						aTd[i].innerHTML = ''
+					}
+					//判断当前月份的天数
+					if(month==1 || month==3  || month==5 || month==7 || month==8 || month==10 || month==12){
+						dayNum =31;
+					} 
+					else if( month==4 || month==6 || month==9 || month==11){
+						dayNum =30;
+					}
+					else if(month ==2 && isLeapYear(year) ){//判断是否闰年
+						dayNum=29;
+					}else{
+						dayNum=28;
+					}
+					
+					oDate.setFullYear(year);
+					oDate.setMonth(month-1);
+					oDate.setDate(1);
+					
+					switch(oDate.getDay()){  //判断当前月的日期是从周几开始，如果是1号，则是周日
+						case 0:
+							for (var i=0; i<dayNum;i++) {
+								aTd[i+6].innerHTML = i+1;
+							}
+							break;
+						case 1:
+							for (var i=0; i<dayNum;i++) {
+								aTd[i].innerHTML = i+1;
+							}
+							break;
+						case 2:
+							for (var i=0; i<dayNum;i++) {
+								aTd[i+1].innerHTML = i+1;
+							}
+							break;
+						case 3:
+							for (var i=0; i<dayNum;i++) {
+								aTd[i+2].innerHTML = i+1;
+							}
+							break;
+						case 4:
+							for (var i=0; i<dayNum;i++) {
+								aTd[i+3].innerHTML = i+1;
+							}
+							break;
+						case 5:
+							for (var i=0; i<dayNum;i++) {
+								aTd[i+4].innerHTML = i+1;
+							}
+							break;
+						case 6:
+							for (var i=0; i<dayNum;i++) {
+								aTd[i+5].innerHTML = i+1;
+							}
+							break;
+					}
+					//获取后台数据
+					var xhr = null;
+					try{
+						xhr = new XMLHttpRequest();
+					}catch(e){ //兼容IE6
+						xhr = new ActiveXObject('Microsoft.XMLHTTP');
+					}
+					xhr.open('get','cost.txt',true);
+					xhr.send();
+					xhr.onreadystatechange = function(){
+						if(xhr.readyState ==4){
+							if(xhr.status ==200){
+								var j= eval('(' + xhr.responseText +')');
+//								var j= JSON.parse('(' + xhr.responseText +')');
+								var now =0;
+								var result=[];
+								for (var i=0; i<aTd.length; i++) {
+									if(aTd[i].innerHTML !=''){
+										result.push(aTd[i]);
+									}
+								}
+								for(var i=0; i<aTd.length; i++){
+									if(aTd[i].innerHTML ==1){
+										now =i;
+									}
+								};
+								if(j.code){
+									for (var i=0; i<j.list.length;i++) {
+										if(j.list[i]){
+											var oP = document.createElement('p');
+											oP.innerHTML  = j.list[i] +'元';
+//											console.log(result.length)
+											result[i+now].appendChild(oP);
+										}
+									}
+								}
+							}else{
+								alert('Err:' + xhr.status)
+							}
+						}
+					}
+					if(month ==1 && bBtn){  //设置当前月为1与12月时，前后的月份变化
+						obj.oTitle.getElementsByTagName('span')[0].innerHTML =12;
+					}else if(month ==12 && !bBtn){
+						obj.oTitle.getElementsByTagName('span')[0].innerHTML =1;
+					}
+					
+				};
+				function isLeapYear(year){
+					if(year%4 ==0 && year%100 !=0){
+						return true;
+					}else {
+						if(year%400 ==0){
+							return true;
+						}else{
+							return false;
+						}
+					}
+				};
+			}
+			
+		</script>
+	</head>
+	<body>
+		<input type="text" value="" />
+		<input type="text" value="" />
+		<input type="button" value="确定" />
+		<div id="div1">
+			<div id="nowTime">
+				<!--<div class="title">
+					<div class="l">
+						<span>3</span>月
+					</div>
+					<div class="c">
+						<span>2000</span>年 <span>7</span>月
+					</div>
+				</div>
+				<table cellpadding="" cellspacing="0">
+					<thead>
+						<tr>
+							<th>周一</th>
+							<th>周二</th>
+							<th>周三</th>
+							<th>周四</th>
+							<th>周五</th>
+							<th class="red">周六</th>
+							<th class="red">周日</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="red">1
+								<p>200元</p>
+							</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>1
+								<p>300元</p>
+							</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1
+								<p>100元</p>
+							</td>
+							<td>1</td>
+							<td>1</td>
+						</tr>
+					</tbody>
+				</table>-->
+			</div>
+			<div id="nextTime"></div>
+		
+		</div>
+		
+	</body>
+</html>

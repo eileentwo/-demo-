@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			ul {
+				padding: 0;
+				list-style: none;
+			}
+			input {
+				outline: none;
+				padding: 0;
+			}
+			#wrap {
+				width: 276px;
+				padding: 8px;
+				background-color: #f1f1f1;
+			}
+			.text {
+				margin-bottom: 9px;
+				height: 26px;
+				line-height: 26px;
+			}
+			#wrap span {
+				display: inline-block;
+				width: 194px;
+				height: 26px;
+				line-height: 26px;
+				vertical-align: middle;
+				border: 1px solid #cbcbcb;
+				background: #fff url(voice.jpg) no-repeat 177px 8px  ;
+			}
+			#wrap a{
+				text-decoration: none;
+				color: #484448;
+				display: inline-block;
+				vertical-align: middle;
+				width: 62px;
+				height: 26px;
+				line-height: 26px;
+				border: 1px solid #cbcbcb;
+				background-color: #f1f1f1;
+				text-align: center;
+				font-size: 14px;
+			}
+			#wrap label {
+				font-size: 12px;
+				vertical-align: top;
+			}
+			#wrap input {
+				vertical-align: top;
+			}
+			
+			#wrap .active span {
+				border-color: #6a87ca;
+			}
+			#wrap .active a {
+				background-color: #2d58b9;
+				color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<ul id="wrap">
+			<li class="text active">
+				<span></span><a href="#">全站搜</a>
+			</li>
+			<li class="text">
+				<span></span><a href="#">精准搜</a>
+			</li>
+			<li>
+				<input type="radio" name="radio" checked="checked"/><label for="radio">帖子</label>
+				<input type="radio" name="radio" id=""/><label for="radio">文章</label>
+				<input type="radio" name="radio" id=""/><label for="radio">帮派</label>
+				<input type="radio" name="radio" id=""/><label for="radio">前端工程师</label>
+				
+			</li>	
+		</ul>
+	</body>
+</html>

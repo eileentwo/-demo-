@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="div1">1,2,3,4</div>
+		<input type="button" id="inp1" value="切换" />
+		
+		
+		<script type="text/javascript">
+			window.onload = function(){
+				var oDiv = document.getElementById('div1');
+				var oInp = document.getElementById('inp1');
+				
+				oInp.onclick = function (){
+					var arr=oDiv.innerHTML.split(",");
+					arr.push(arr[0]);  //push在最后加入  unshift  在第一项前面加入
+					arr.shift();//删除第一项   pop删除最后项
+					oDiv.innerHTML = arr;
+				}
+			}
+		</script>
+	</body>
+</html>

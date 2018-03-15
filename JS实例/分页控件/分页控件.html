@@ -1,0 +1,77 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>pagenav test</title>
+<head>
+
+<style type="text/css" media="screen">
+    a {
+        color: #2B4A78;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #2B4A78;
+        text-decoration: underline;
+    }
+
+    a:focus, input:focus {
+        outline-style: none;
+        outline-width: medium;
+    }
+
+    .pageNum {
+        border: 1px solid #999;
+        padding: 2px 8px;
+        display: inline-block;
+    }
+
+    .cPageNum {
+        font-weight: bold;
+        padding: 2px 5px;
+    }
+    #pageNav{
+        -moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+    }
+    #pageNav a:hover {
+        text-decoration: none;
+        background: #fff4d8;
+    }
+
+</style>
+<script type="text/javascript" src="pagenav1.1.cn.js"></script>
+<script type="text/javascript">
+
+window.onload = (function(){
+
+	//optional set
+	pageNav.pre="上一页";
+	pageNav.next="下一页";
+
+	 //  p,当前页码,pn,总页面
+	pageNav.fn = function(p,pn){
+		document.getElementById("test").innerHTML ="当前页:"+p+"  ,  总页: "+pn;
+		//$("#test").text("Page:"+p+" of "+pn + " pages."); // jquery调用方式
+	};
+	
+	//重写分页状态,跳到第三页,总页33页
+	pageNav.go(3,33);
+
+});
+
+  </script>
+
+</head>
+<body>
+
+
+<div id="test" style="height:70px;padding:30px 10px;font-size: 300%;"></div>
+
+<div id="pageNav"></div>
+ 
+</body>
+<html>

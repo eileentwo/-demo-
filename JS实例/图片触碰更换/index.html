@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			#box {
+				width: 870px;
+				height: 509px;
+				margin: 50px auto;
+				
+			}
+			#box ul {
+				height: 509px;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				align-content: space-between;
+				list-style: none;
+			}
+			#box li {
+				width: 217px;
+				height: 169px;
+				overflow: hidden;
+				position: relative;
+			}
+			#box a,
+			#box span {
+				display: block;
+				width: 216px;
+				height: 168px;
+				position: absolute;
+				top:0;
+				left: 0;
+			}
+			.front {
+				z-index: 2;
+				background-image: url(2.jpg);
+			}
+			.back  {
+				background-image: url(1.jpg);
+				z-index: 1;
+			}
+			
+			.from-top {
+				transform-origin: 0 0;
+				animation: from-top 0.6s linear forwards;
+			}
+			@keyframes from-top{
+				from{
+					z-index: 3;
+					transform: rotate(-90deg);
+				}
+				to{
+					z-index: 3;
+					transform: rotate(0deg);
+				}
+			}
+			
+			.to-top {
+				transform-origin: 0 0;
+				animation: to-top 0.6s linear forwards;
+			}
+			@keyframes to-top{
+				from{
+					z-index: 3;
+					transform: rotate(0deg);
+				}
+				to{
+					z-index: 3;
+					transform: rotate(-90deg);
+				}
+			}
+			
+			.from-bottom {
+				transform-origin:  100% 100%;
+				animation: from-bottom 0.6s linear forwards;
+			}
+			@keyframes from-bottom{
+				from{
+					z-index: 3;
+					transform: rotate(-90deg);
+				}
+				to{
+					z-index: 3;
+					transform: rotate(0deg);
+				}
+			}
+			
+			.to-bottom {
+				transform-origin: 100% 100%;
+				animation: to-bottom 0.6s linear forwards;
+			}
+			@keyframes to-bottom{
+				from{
+					z-index: 3;
+					transform: rotate(0deg);
+				}
+				to{
+					z-index: 3;
+					transform: rotate(-90deg);
+				}
+			}
+			.from-left {
+				transform-origin: 0 100%;
+				animation: from-left 0.6s linear forwards;
+			}
+			@keyframes from-left{
+				from{
+					z-index: 3;
+					transform: rotate(-90deg);
+				}
+				to{
+					z-index: 3;
+					transform: rotate(0deg);
+				}
+			}
+			
+			.to-left {
+				transform-origin: 0 100%;
+				animation: to-left 0.6s linear forwards;
+			}
+			@keyframes to-left{
+				from{
+					z-index: 3;
+					transform: rotate(0deg);
+				}
+				to{
+					z-index: 3;
+					transform: rotate(-90deg);
+				}
+			}
+			.from-right {
+				transform-origin:  100% 0  ;
+				animation: from-right 0.6s linear forwards;
+			}
+			@keyframes from-right{
+				from{
+					z-index: 3;
+					transform: rotate(-90deg);
+				}
+				to{
+					z-index: 3;
+					transform: rotate(0deg);
+				}
+			}
+			
+			.to-right {
+				transform-origin:100% 0 ;
+				animation: to-right 0.6s linear forwards;
+			}
+			@keyframes to-right{
+				from{
+					z-index: 3;
+					transform: rotate(0deg);
+				}
+				to{
+					z-index: 3;
+					transform: rotate(-90deg);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<ul>
+				<!--<li>
+					<a href="#">
+						<span class="front"></span>
+						<span class="back from-left"></span>
+					</a>
+				</li>-->
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var box = document.getElementById('box');
+			var oUl = box.getElementsByTagName('ul')[0];
+			var aLi = box.getElementsByTagName('li');
+			var front= box.getElementsByClassName('front');
+			var back= box.getElementsByClassName('back');
+			
+			console.log(front)
+			var xNum=4;
+			var yNum=3;
+			var liW = 217;
+			var liH = 169;
+			var str='';
+			for (var i=0; i<xNum*yNum; i++ ) {
+				str +='<li><a href="#"><span class="front"></span><span class="back"></span></a></li>';
+			}
+			oUl.innerHTML = str;
+			for (var i=0; i<xNum*yNum; i++ ) {
+				var pX= i%xNum;
+				var pY= parseInt(i/xNum);
+				
+				front[i].style.backgroundPosition =-liW * pX+'px '+ '-'+liH * pY +'px';
+				back[i].style.backgroundPosition =-liW * pX+'px '+ '-'+ liH * pY +'px';
+			}
+			
+			for (let i=0; i<aLi.length;i++) {
+				aLi[i].onmouseenter = function(e){
+					move.call(this,e,'from')
+					
+				};
+				aLi[i].onmouseleave = function(e){
+					move.call(this,e,'to')
+				}
+			}
+			function move(e,item){
+				var x = e.pageX;
+				var y = e.pageY;
+				var top = this.offsetTop;
+				var bottom = this.offsetHeight + top;
+				var left = this.offsetLeft;
+				var right = this.offsetWidth + left;
+				
+				var list = ['top','right','bottom','left'];
+				var sL = Math.abs(x-left);
+				var sR = Math.abs(x-right);
+				var sT = Math.abs(y-top);
+				var sB = Math.abs(y-bottom);
+				var min = Math.min(sT,sR,sB,sL);
+				var Name =item + '-'+list[[sT,sR,sB,sL].indexOf(min)];//获取在
+				var span = this.children[0].children[1];
+				setStyle(span,Name);
+			}
+			function setStyle(el, className){
+				el.className ='back ' + className;
+			}
+		</script>
+		
+	</body>
+</html>

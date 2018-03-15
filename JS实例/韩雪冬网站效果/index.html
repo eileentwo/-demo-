@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			ul {
+				list-style: none;
+				position: relative;
+			}
+			
+			#automatic{
+				width: 740px;
+				height: 300px;
+				margin: 50px auto;
+				position: relative;
+			}
+			
+			li {
+				position: absolute;
+			}
+			.pos_0 {
+				left: 0px;
+				top:100px;
+				z-index: 1;
+				opacity: .4;
+			}
+			.pos_1 {
+				left: 60px;
+				top:50px;
+				z-index: 2;
+				opacity: .6;
+			}
+			.pos_2 {
+				left: 120px;
+				top:0px;
+				z-index: 3;
+				opacity: 1;
+			}
+			.pos_3 {
+				left: 430px;
+				top:50px;
+				z-index: 2;
+				opacity: .6;
+			}
+			.pos_4 {
+				left: 640px;
+				top:100px;
+				z-index: 1;
+				opacity: .4;
+			}
+			
+			.pos_0 img,
+			.pos_4 img {
+				width: 100px;
+				height: 100px;
+			}
+			.pos_1 img,
+			.pos_3 img {
+				width: 250px;
+				height:200px;
+			}
+			.pos_2 img {
+				width: 500px;
+				height: 300px;
+			}
+			
+			.prev_div,
+			.next_div {
+				width: 40px;
+				height: 80px;
+				background-color: #00EEFF;
+				text-align: center;
+				line-height: 80px;
+				color: #fff;
+				font-size: 40px;
+				position: absolute;
+				top: 40%;
+				z-index: 9;
+			}
+			.next_div{
+				right: 80px;
+			}
+			.prev_div  {
+				left:80px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="automatic">
+			<div class="next_div">&gt;</div>
+			<a href="#" class="prev">
+				<span></span>
+				<span></span>
+				<span></span>
+			</a>
+			
+			<div class="prev_div">&lt;</div>
+			<a href="#" class="next">
+				<span></span>
+				<span></span>
+				<span></span>
+			</a>
+			
+			<ul>
+				<li class="pos_0">
+					<img src="../img/cbd.jpg"/>
+				</li>
+				<li class="pos_1">
+					<img src="../img/muwu.jpg"/>
+				</li>
+				<li class="pos_2">
+					<img src="../img/yuantiao.jpg"/>
+				</li>
+				<li class="pos_3">
+					<img src="../img/shuijiao.jpg"/>
+				</li>
+				<li class="pos_4">
+					<img src="../img/cat.jpg"/>
+				</li>
+			</ul>
+		</div>
+		
+		<script src="../miaov_move.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function(){
+				var prev_div = document.getElementsByClassName('prev_div')[0];
+				var next_div = document.getElementsByClassName('next_div')[0];
+				var aLi = document.getElementsByTagName('li');
+				var arr=[];
+				
+				for (var i =0; i<aLi.length;i++) {
+					var oImg = aLi[i].getElementsByTagName('img')[0];
+					//将要变更的值先存储起来
+					arr.push([ parseInt(getStyle(aLi[i],'left')) , parseInt(getStyle(aLi[i],'top')), parseInt(getStyle(aLi[i],'opacity')*100), parseInt(getStyle(aLi[i],'zIndex')),oImg.width,oImg.height ])
+				}
+				
+//				console.log(arr)
+				prev_div.onclick = function(){
+					
+					arr.push(arr[0]);
+					arr.shift();
+					change(arr);
+				};
+				
+				next_div.onclick = function(){
+					arr.unshift(arr[arr.length-1]);
+					arr.pop();
+					change(arr)
+				
+				}
+				function change(arr){
+					for (var i =0; i<aLi.length;i++) {
+						var oImg =aLi[i].getElementsByTagName('img')[0];
+						aLi[i].style.zIndex=arr[i][3];
+						
+						startMove(aLi[i],{
+							left:arr[i][0],
+							top:arr[i][1],
+							opacity:arr[i][2]
+						});
+						startMove(oImg,{
+							width:arr[i][4],
+							height:arr[i][5]
+						})
+					}
+				}
+				function getStyle(obj,attr){
+					if(obj.currentStyle){
+						return obj.currentStyle[attr];
+					}else {
+						return getComputedStyle(obj,false)[attr];
+					}
+				};
+			}
+		</script>
+	</body>
+</html>

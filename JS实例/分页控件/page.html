@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>分页效果</title>
+    <style type="text/css">
+        #page-coat a{
+            text-decoration:none; 
+            display: inline;
+            float: left;
+            padding: 3px 10px 3px 10px; 
+            overflow: hidden; 
+            border:1px solid #ccc;
+            color:#999;
+            margin-right: 5px;
+            cursor: pointer;
+            background: #fff;
+            
+        }
+        #page-coat a:hover{
+            border: 1px solid #FF6600;
+            background-color: #FF6600;
+            color: #fff;    
+        }
+        #page-coat span{
+            display: inline;
+            float: left;
+            color:#999;
+            background: #fff;
+        }
+        #page-coat a.lmw-current{
+            color: #FF6600;
+            border: 1px solid #FF6600;
+            background-color: #FFEEE5;
+        }
+    </style>
+</head>
+<body class="l-bg2">
+ <div id="page-coat">
+     
+ </div> 
+</body>
+<!--<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>-->
+<script type="text/javascript" src="public.js"></script>
+<script type="text/javascript">
+var conf = {
+    'total':10,
+    'click':function(e){ //e为当前页码
+/*        $.get('/php',{"page":e},function(data){
+            console.log('ok')
+        })*/
+    }
+}
+var page = new pageFunc(conf);
+</script>
+</html>

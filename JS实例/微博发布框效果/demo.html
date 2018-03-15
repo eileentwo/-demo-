@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#div {
+				font-size: 20px;
+				width: 400px;
+				margin: 0 auto;
+				text-align: right;
+			}
+			#div textarea {
+				width: 400px;
+				height: 100px;
+				text-align: left;
+				margin-bottom: 20px;
+			}
+			#div a {
+				padding: 10px;
+				text-decoration: none;
+				background-color: deeppink;
+			}
+			#div a.dis{
+				background-color: #eee;
+			}
+		</style>
+			
+	</head>
+	<body>
+		<div id="div">
+			<p>有什么新鲜事想告诉大家?</p>
+			<textarea></textarea>
+			<a href="javascript:;" class="dis">发布</a>
+		</div>
+		<ul>
+			<li></li>
+		</ul>
+		
+		<script type="text/javascript">
+			window.onload = function(){
+				var oDiv = document.getElementById('div');
+				var oP = oDiv.getElementsByTagName('p')[0];
+				var oT = oDiv.getElementsByTagName('textarea')[0];
+				var oA = oDiv.getElementsByTagName('a')[0];
+				var bBtn =true;
+				var ie = !-[1,];
+				var timer =null;
+				var iNum=0;
+				
+				oT.onfocus =function(){
+					if(bBtn){
+						oP.innerHTML = '还可输入<span>140</span>字';
+						bBtn = false;
+					}
+					
+				}
+				
+				oT.onblur = function(){
+					if(oT.value==''){
+						oP.innerHTML='有什么新鲜事想告诉大家';
+						bBtn = true;
+					}
+					
+					
+				}
+				
+//				onpropertychange
+//				oninput   连续触发
+				if(ie){
+					oT.onpropertychange = toChange;
+				}else{
+					oT.oninput = toChange;
+				}
+				function toChange(){
+					var oSpan = oDiv.getElementsByTagName('span')[0];
+					var num = Math.ceil(getLen(oT.value) / 2);  //找到有多少个字
+					if(num<=140){
+						oSpan.innerHTML = 140 -num;
+						oSpan.style.color ='';
+					}else{
+						oSpan.innerHTML = num -140 ;
+						oSpan.style.color ='red';
+					}
+					if(oT.value =='' || num >140 ){
+						oA.className = 'dis';
+						
+					}else{
+						oA.className = '';
+					}
+				}
+				function getLen (str){//返回长度
+					return String(str).replace(/[^\x00-\xff]/g,'aa').length;
+				}
+				oA.onclick = function(){
+					if(this.className =='dis'){
+						clearInterval(timer);
+						timer = setInterval(function(){
+							if(iNum ==5){
+								clearInterval(timer);
+								iNum=0;
+							}
+							else{
+								iNum++;
+							}
+							
+							if(iNum %2){
+								oT.style.background = 'red';
+							}else{
+								oT.style.background = '';
+							}
+						},100)
+					}else{
+						oT.value = '';
+						alert('发布成功');
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

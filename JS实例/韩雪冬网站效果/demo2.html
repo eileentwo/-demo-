@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div {
+				width: 100px;
+				height: 100px;
+				position: absolute;
+				
+			}
+			.box1 {
+				background-color: #f0e;
+				left: 10px;
+				top: 100px;
+			}
+			.box2 {
+				background-color: #0f0;
+				left: 130px;
+				top: 200px;
+			}
+			.box3 {
+				background-color: #0ef;
+				left: 250px;
+				top: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="button" id="inp1" value="←" />
+		<input type="button" id="inp2" value="→" />
+		<div class="box1"></div>
+		<div class="box2"></div>
+		<div class="box3"></div>
+		
+		<script type="text/javascript">
+			window.onload = function(){
+				var oInp1 = document.getElementById('inp1');
+				var oInp2 = document.getElementById('inp2');
+				var aDiv = document.getElementsByTagName('div');
+				
+				var arr=[];
+				
+				
+				for (var i=0; i<aDiv.length;i++) {
+					arr.push([ getStyle(aDiv[i],'left') , getStyle(aDiv[i],'top')]);
+				
+				}
+				function getStyle(obj,attr){
+					if(obj.currentStyle){
+						return obj.currentStyle[attr];
+					}else {
+						return getComputedStyle(obj,false)[attr];
+					}
+				};
+				oInp1.onclick = function (){
+					arr.push(arr[0]);  //向数组的结尾添加一个或更多元素
+					arr.shift();//把数组的第一个元素从其中删除，并返回第一个元素的值。
+					change(arr);
+				};
+				oInp2.onclick = function (){
+					arr.unshift(arr[arr.length-1]); //向数组的开头添加一个或更多元素，并返回新的长度。
+					arr.pop();  //删除并返回数组的最后一个元素。
+					
+					change(arr);
+					
+				};
+				function change(){
+					for (var i=0; i<aDiv.length;i++) {
+						aDiv[i].style.left = arr[i][0];
+						aDiv[i].style.top = arr[i][1];
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

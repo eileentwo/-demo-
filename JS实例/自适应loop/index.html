@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			li {
+				list-style: none;
+			}
+			#div1 {
+				min-width: 1000px;
+				height: 800px;
+				position: relative;
+				overflow: hidden;
+			}
+			#div1 ul {
+				position: absolute;
+				left: 0;
+			}
+			#div1 li {
+				float: left;
+			}
+			#div1 li img {
+				position: relative;
+				left: 0;
+				top: 0;
+			}
+			
+			
+			#btn {
+				position: absolute;
+				width: 100%;
+				text-align: center;
+				bottom: 0;
+				
+			}
+			#btn a {
+				cursor: pointer;
+				display: inline-block;
+				width: 11px;
+				height: 11px;
+				background-color: #666;
+			}
+			#btn a.active,
+			#btn a:hover {
+				background-color: #fff;
+			}
+			
+			
+			/*IE6兼容最小宽度*/
+			*html .ie6_out {
+				margin-left: 1000px;
+				zoom: 1;
+			}
+			*html .it6_in{
+				position: relative;
+				float: left;
+				margin-left: -1000px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<!--
+			[if lte IE 6]>
+			<div class='ie6_out'>
+				
+			<div class='ie6_in'>
+			<![endif]
+		-->
+		
+		<div id="div1">
+			<ul>
+				<li><img src="../img/vivoy75mgj-bg.jpg"/></li>
+				<li><img src="../img/vivo-banner-x20xyh-bg.jpg"/></li>
+				<li><img src="../img/vivo-banner-x20plusmsh-bg.jpg"/></li>
+				<li><img src="../img/vivo-banner-y66i-bg.jpg"/></li>
+			</ul>
+			<div id="btn">
+				<a href="javascript:;" class="active"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+			</div>
+		</div>
+		
+		<!--
+        	[if lte IE 6]>
+	        </div>
+	        </div>
+	        <![endif]
+        -->
+        
+        <script src="../miaov_move.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		
+			window.onload = function(){
+				//1,获取元素
+				var oDiv = document.getElementById('div1');
+				var oUl = oDiv.getElementsByTagName('ul')[0];
+				var aLi = oUl.getElementsByTagName('li');
+				var aImg = oUl.getElementsByTagName('img');
+				
+				var oBtn =document.getElementById('btn');
+				var aA = oBtn.getElementsByTagName('a');
+				
+				var imgWidth = 2560;
+				var imgHeight = 1100;
+				
+				var iNow = 0;
+				var iNow2=0;
+				
+				//2.获取ul的宽度
+				
+				oUl.style.width= aImg.length * imgWidth + 'px';
+				
+				function toReSize(){
+					var veiwWidth = document.documentElement.clientWidth;
+					var veiwH = document.documentElement.clientHeight;
+					
+					if(veiwWidth > 1000){
+						for (var i=0; i<aImg.length;i++) {
+							aImg[i].style.left = - (imgWidth - veiwWidth) / 2 + 'px';
+							aImg[i].style.top = - (imgHeight - veiwH) / 2 + 'px';
+						}
+					}
+				}
+				
+				window.onresize = function(){
+					toReSize();
+				};
+				//3.当点击加点时，获取圆点的index，将对应的Indez的宽度作为UL的-left的值
+				for (var i=0; i<aA.length ; i++) {
+					aA[i].index = i;
+					aA[i].onclick = function(){
+						clearInterval(timer);
+//						for (var i=0; i<aA.length ; i++) {  //将所有圆点的active取消，再在当前圆点上加active
+//							aA[i].className='';
+//						}
+//						this.className = 'active';  //再在当前圆点上加active
+//						startMove(oUl,{left:-this.index*imgWidth});
+						change(this.index);
+						iNow = this.index;
+						iNow2 = this.index;
+						timer = setInterval(toRun,3000);
+					}
+					
+				};
+				function change(num){
+					for (var i=0; i<aA.length ; i++) {  //将所有圆点的active取消，再在当前圆点上加active
+							aA[i].className='';
+						}
+						aA[num].className = 'active';  //再在当前圆点上加active
+						startMove(oUl,{left:-num*imgWidth});
+						
+				}
+				var timer = setInterval(toRun,3000);
+				
+				function toRun(){
+					if(iNow == aA.length -1) {  //判断角标是否到大了数组的长度，如果是，设置回到0，不是则累加
+						aLi[0].style.position='relative';  //运动到最后一张图时将第一个的left值放到最后
+						aLi[0].style.left=aLi.length * imgWidth + 'px';
+						iNow =0;
+					}else {
+						iNow ++;
+					}
+						iNow2 ++;
+					console.log(iNow, iNow2)
+					change(iNow);
+					
+//					for (var i=0; i<aA.length ; i++) {  //将所有圆点的active取消，再在当前圆点上加active
+//						aA[i].className='';
+//					}
+//					aA[iNow].className = 'active';//再在当前圆点上加active
+					
+					startMove(oUl,{left:-iNow2*imgWidth},function(){
+						if(iNow==0){
+							aLi[0].style.position='static';//运动到第一张图时又将第一个的left值放到最前面来
+							oUl.style.left=0;
+							iNow2 =0;
+						}
+					})
+					
+				}
+			}
+			/*
+			 1,获取元素
+			 
+			 
+			 */
+			
+			
+		</script>
+		
+	</body>
+</html>

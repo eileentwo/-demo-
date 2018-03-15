@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div class="box">jdfohkfjaieohfhdjnkfiaufheanfhifuasdhfieufheuibfudkjnfaejubguewbfhifbsbfiyewgf</div>
+		<h2 class="h2"></h2>
+		<script type="text/javascript">
+			var box = document.getElementsByClassName('box')[0];
+			var h2 = document.getElementsByClassName('h2')[0];
+			var str = box.innerText;
+			var json={};
+			var num =0;
+			var number='';
+			for (var i=0; i<str.length;i++) {
+				 if (!json[str.charAt(i)]) {
+	                json[str.charAt(i)] = 1;
+		         } else {
+	                //else的话就让数组中已有的当前值的index值++；
+	               json[str.charAt(i)]++;
+	          	 }
+			}
+			for(var k in json){
+				if(json[k]>num){
+					num =json[k];
+					number =k;
+				}
+			}
+			h2.innerHTML ='出现最多的值的是:' +number +',出现次数为：'+num;
+		</script>
+	</body>
+</html>

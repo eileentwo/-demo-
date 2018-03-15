@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#login {
+				width: 300px;
+				margin: 50px auto;
+				position: relative;
+			}
+			#login input {
+				width:200px;
+				height: 30px;
+				line-height: 30px;
+				margin-bottom: 10px;
+			}
+			#login ul {
+				display: none;
+				padding: 5px 0;
+				list-style: none;
+				position: absolute;
+				top: 20px;
+				left: 10px;
+				background-color: #fff;
+				width: 300px;
+				border: 1px solid #000;
+				
+			}
+			#login ul li {
+				height: 30px;
+				line-height: 30px;
+				text-indent: 5px;
+				border-bottom: 1px solid #000000;
+				cursor: pointer;
+			}
+			#login .selected{
+				background-color: deeppink;
+				color: #EEEEEE;
+			}
+			#login ul li:last-child{
+				border-bottom-width: 0;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id="login">
+			<div class="detail">
+				<input type="text" name="loginname"  id="inp1" placeholder="邮箱/会员帐号/手机号"  class="name"/>
+			</div>
+			<div class="detail">
+				<input type="text" name="loginname"  id="inp2" placeholder="请输入密码"  class="name"/>
+			
+			</div>
+			
+			<ul>
+				<li>请选择邮箱类型</li>
+				<li email="" class="item"></li>
+				<li email="@sina.com" class="item">@sina.com</li>
+				<li email="@163.com" class="item">@163.com</li>
+				<li email="@qq.com" class="item">@qq.com</li>
+				<li email="@126.com" class="item">@126.com</li>
+				<li email="@vip.sina.com" class="item">@vip.sina.com</li>
+				<li email="@hotmail.com" class="item">@hotmail.com</li>
+				<li email="@gmail.com" class="item">@gmail.com</li>
+				<li email="@sohu.com" class="item">@sohu.com</li>
+				<li email="@yahoo.com" class="item">@yahoo.com</li>
+				<li email="@139.com" class="item">@139.com</li>
+			</ul>
+		</div>
+		
+		<script type="text/javascript">
+			var login = document.getElementById('login');
+			var inp1 = document.getElementById('inp1');
+			var ul = document.getElementsByTagName('ul')[0];
+			var item = document.getElementsByClassName('item');
+			var ie = !-[1,];
+			var iNow =0;
+			if(ie){
+				inp1.onpropertychange = change;
+			}else{
+				inp1.oninput = change;
+			};
+			inp1.onclick = function(e){
+				var e=e || window.event;
+				e.cancelBubble=true;
+//				this.value='';
+			}
+			document.onclick = function(){
+				ul.style.display = 'none';
+			}
+			function change(){
+				if(this.value ==''){return};
+				showUl();
+				selected(iNow);
+				var value =this.value;
+				var re = new RegExp('@'+value.substring((value.indexOf('@')+1))+'');
+				
+				for (var i=0; i<item.length;i++) {
+					item[i].style.display='block';
+				}
+				if(re.test(value)){
+					for (let i=0; i<item.length;i++) {
+						var oEmail = item[i].getAttribute('email');
+						if(i==0){
+							item[i].innerHTML= value ;
+						}else{
+							if(re.test(oEmail)){
+								item[i].style.display='block';
+							}else{
+								item[i].style.display='none';
+							}
+						}
+					}
+				}else{
+					for (var i=0; i<item.length; i++) {
+						var oEmail = item[i].getAttribute('email');
+						if(oEmail){
+							item[i].innerHTML= value + oEmail;
+						}else{
+							item[i].innerHTML= value ;
+						}
+						
+					}
+				}
+				
+			}
+			function showUl(){
+				ul.style.display = 'block';
+			};
+			function selected(iNow){
+				for (let i=0; i<item.length; i++) {
+					item[i].className= 'item';
+				}
+				if(inp1.value ==''){
+					item[iNow].className= 'item';
+				}else{
+					item[iNow].className= 'item selected';
+				}
+				for (var i=0; i<item.length; i++) {
+					item[i].index=i;
+					item[i].onmouseover = function(){
+						for (var i=0; i<item.length; i++ ) {
+							item[i].className= 'item';
+						}
+						this.className= 'item selected';
+						
+					}
+				}
+				
+			};
+			function selectVal(){//已经选择的邮箱后input及ul的变化
+				inp1.value = this.innerHTML;
+				this.parentElement.style.display = 'none';
+			}
+			for (let i=0; i<item.length; i++) {
+				item[i].onclick = selectVal;
+			}
+			
+			inp1.onkeydown = function(e){
+				var e = e || window.event;
+				for (var i=0; i<item.length;i++) {
+					if(item[i].className == 'item selected'){
+						iNow = i;
+					}
+				}
+				if(e.keyCode ==38){ //上
+					for (var i=0; i<item.length;i++) {
+						item[i].className = 'item';
+					}
+					
+					if(iNow==0){
+						iNow=item.length-1;
+					}else{
+						iNow--;
+					}
+					
+					item[iNow].className = 'item selected';
+					
+				}else if(e.keyCode ==40){//下
+					for (var i=0; i<item.length;i++) {
+						item[i].className = 'item';
+					}
+					if(iNow==item.length-1){
+						iNow=0;
+					}else{
+						iNow++;
+					}
+					console.log(iNow,item[iNow])
+					
+					item[iNow].className = 'item selected';
+				}else if(e.keyCode ==13){ //enter
+					this.value = item[iNow].innerHTML;
+					ul.style.display = 'none';
+				}
+			}
+		</script>
+	</body>
+</html>

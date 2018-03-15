@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.box {
+				width: 500px;
+				margin: 0 auto;
+			}
+			.img {
+				width: 50px;
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+				color: #fff;
+				display: none;
+				position: absolute;
+				background-color: pink;
+				border-radius: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="img" class="img">分享</div>
+		<div id="box" class="box">
+			在重庆代表团讲政治生态，有很强的针对性。
+
+　　当下，重庆面临着从政治上肃清孙政才恶劣影响和“薄、王”遗毒，重塑风清气正政治生态的任务。
+
+　　习近平强调，政治生态同自然生态一样，稍不注意就容易受到污染，一旦出现问题再想恢复就要付出很大代价。
+
+　　他进一步指出，形成风清气正的政治生态，是旗帜鲜明讲政治、坚决维护党中央权威和集中统一领导的政治要求，是持之以恒正风肃纪、推动全面从严治党向纵深发展的迫切需要，是锻造优良党风政风、确保改革发展目标顺利实现的重要保障。
+
+　　“政治要求”“迫切需要”“重要保障”，这12个字凸显了风清气正政治生态的政治“含金量”和对改革发展的重要意义。
+		</div>
+		<script type="text/javascript">
+			window.onload = function(){
+				var box = document.getElementById('box');
+				var img = document.getElementById('img');
+				
+				
+				box.onmouseup = function(e){
+					var e = e || window.event;
+					var Left = e.clientX;
+					var Top = e.clientY;
+					var txt =selectText();
+					if(txt.length >10){
+						setTimeout(function(){
+							img.style.display = 'block'; 
+							img.style.left = Left +'px';
+							img.style.top = Top +'px';
+						},100)
+					}else{
+						img.style.display = 'none'; 
+					}
+					
+					img.onclick = function(){
+				        if (txt) {
+					            window.open('http://v.t.sina.com.cn/share/share.php?title=' + txt + '&url=' + window.location.href);   
+				        }
+					};
+				}
+				
+				box.onclick = function(e){
+					var e = e||window.event;
+					e.cancelBubble=true;
+				}
+				document.onclick = function(){
+					img.style.display = 'none'; 
+				}
+				
+				
+				function selectText(){
+					if(document.selection){//IE
+						return document.selection.createRange().text;
+					}else{//标准
+						return window.getSelection().toString();
+					}
+				};
+			}
+		</script>
+	
+	</body>
+</html>

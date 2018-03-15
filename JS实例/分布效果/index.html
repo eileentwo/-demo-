@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			li {
+				list-style: none;
+			}
+			#ul1 {
+				width: 600px;
+				height: 220px;
+				overflow: hidden;
+				margin: 50px auto;
+			}
+			
+			#ul1 li {
+				width: 100px;
+				height: 100px;
+				background-color: pink;
+				float: left;
+				overflow: hidden;
+				margin: 10px;
+			}
+			#ul1 img {
+				width: 100%;
+				height: 100%;
+			}
+			#div1 {
+				width:600px;
+				margin: 0 auto;
+			}
+			#div1 a {
+				text-decoration: none;
+				display: inline-block;
+				margin: 5px;
+				padding: 5px;
+				width: 20px;
+				height: 20px;
+				line-height: 20px;
+				text-align: center;
+				border: 2px solid #00EEFF;
+			}
+			#div1 .home,
+			#div1 .next,
+			#div1 .prev,
+			#div1 .last {
+				width: auto;
+			}
+			#div1 a.active {
+				color: red;
+				border-color: #FF0000;
+			}
+		</style>
+		<script src="../move.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function(){
+				var json = {
+					title:[
+						'效果1',
+						'效果2',
+						'效果3',
+						'效果4',
+						'效果5',
+						'效果6',
+						'效果7',
+						'效果8',
+						'效果9',
+						'效果10',
+						'效果11',
+						'效果12',
+						'效果13',
+						'效果14',
+						'效果15',
+						'效果16',
+						'效果17',
+						'效果18',
+						'效果19',
+						'效果20',
+						'效果21',
+						'效果22',
+						'效果23',
+						'效果24',
+						'效果25',
+						'效果26',
+						'效果27',
+						'效果28',
+						'效果29',
+						'效果30',
+						'效果31',
+						'效果32',
+						'效果33'
+					]
+				}
+				var arr =[];
+				page({
+					id:'div1',
+					//当前页
+					nowNum:2,  
+					//总页数
+					allNum:Math.ceil(json.title.length / 10) ,  
+					callBack:function(now,all){
+//						alert('当前页:' + now + ',  总共页：'+ all)
+						var len =json.title.length;
+						var num = now*10 < len ? 10 : len -(now-1)*10 ;
+						
+						var oUl = document.getElementById('ul1');
+						var aLi = oUl.getElementsByTagName('li');
+						
+						
+						var iNow =9;
+						
+						if(oUl.innerHTML == '' ){
+							for (var i=0; i<num; i++) {
+								var oLi = document.createElement('li');
+								oLi.innerHTML = json.title[(now-1)*10 +i];
+								oUl.appendChild(oLi)
+							}
+							for(var i=0; i<aLi.length; i++){
+								arr.push([aLi[i].offsetLeft,aLi[i].offsetTop])
+							}
+							for(var i=0; i<aLi.length; i++){
+								aLi[i].style.position = 'absolute';
+								aLi[i].style.left = arr[i][0] + 'px';
+								aLi[i].style.top = arr[i][1] + 'px';
+								aLi[i].style.margin =0;
+							}
+							
+						}
+						
+						else {
+							var timer =setInterval(function(){
+								startMove(aLi[iNow],{left:900,top:250,opacity:0});
+								if(iNow ==0){
+									clearInterval(timer);
+									iNow = num-1;
+									
+									for(var i=0; i<num; i++){
+										aLi[i].innerHTML = json.title[(now-1)*10 +i];
+										
+									}
+									var timer2 = setInterval(function(){
+										
+										startMove(aLi[iNow],{
+											left:arr[iNow][0],
+											top:arr[iNow][1],
+											opacity:100
+										})
+										if(iNow==0){
+											clearInterval(timer2);
+											iNow = num-1;
+										}else {
+											iNow --;
+										}
+									},300)
+								}else{
+									iNow --;
+								}
+								
+							},300)
+						}
+					}
+				});
+				
+				
+			function page(opt){
+				if(!opt.id){return false};
+				
+				var obj = document.getElementById(opt.id);
+				var nowNum = opt.nowNum || 1;
+				var allNum = opt.allNum || 5;
+				var callBack = opt.callBack || function(){};
+				
+				if(nowNum >=4 && allNum >=6){ //首页
+					var oA = document.createElement('a');
+					oA.className = 'home';
+					oA.href = '#1';
+					oA.innerHTML = '首页';
+					obj.appendChild(oA)
+				}
+				
+				if(nowNum >=2){ //上一页
+					var oA = document.createElement('a');
+					oA.href = '#' +(nowNum -1);
+					oA.className = 'next';
+					oA.innerHTML = '上一页';
+					obj.appendChild(oA)
+				}
+				
+				
+				if(allNum <= 5){
+					for (var i=1; i<=allNum; i++) {
+						var oA = document.createElement('a');
+						oA.href = "#" +i;
+						if( nowNum == i){
+							oA.className = 'active';
+						}else{
+							oA.className = '';
+						}
+						oA.innerHTML = i ;
+						obj.appendChild(oA)
+					}
+				}else {
+					for (var i=1; i<=5; i++) {
+						var oA = document.createElement('a');
+						if(nowNum ==1 || nowNum == 2 ){
+							oA.href = "#" + i;
+							if(nowNum == i){
+								oA.className = 'active';
+							
+							}else{
+								oA.className = '';
+							}
+							
+							oA.innerHTML = i;
+							obj.appendChild(oA)
+						}
+						else if( (allNum -nowNum) ==0 ||  (allNum -nowNum) ==1){
+							oA.href = "#" + (allNum -5 + i);
+							
+							if((allNum -nowNum) == 0 && i==5 ){
+//								oA.innerHTML = (allNum -5 +i);
+								oA.className = 'active';
+								
+							}else if((allNum -nowNum) ==1 &&  i==4) {
+//								oA.innerHTML = (allNum -5 + i);
+								oA.className = 'active';
+							}else {
+								oA.className = '';
+//								oA.innerHTML = '[' + (allNum -5 + i) + ']' ;
+							}
+							oA.innerHTML = (allNum -5 +i);
+							obj.appendChild(oA)
+						}
+						else{
+							oA.href = '#' + (nowNum -3 + i);
+							
+							if(i==3){
+//								oA.innerHTML = (nowNum -3 + i);
+								oA.className = 'active';
+							}
+							else{
+								oA.className = '';
+//								oA.innerHTML = '[' + (nowNum -3 + i) + ']' ;
+							}
+							oA.innerHTML = (nowNum -3 + i);
+							obj.appendChild(oA)
+						}
+							
+					}
+				}
+				
+				
+				if((allNum - nowNum) >=1){ //下一页
+					var oA = document.createElement('a');
+					oA.href = '#' +(nowNum +1);
+
+					oA.innerHTML = '下一页';
+					oA.className = 'next';
+					obj.appendChild(oA)
+				}
+				
+				
+				if((allNum - nowNum) >=3 && allNum >=6){ //尾页
+					var oA = document.createElement('a');
+					oA.href = '#' + allNum;
+					oA.className = 'last';
+					oA.innerHTML = '尾页';
+					obj.appendChild(oA)
+				}
+				
+				callBack(nowNum,allNum);
+				
+				var aA = obj.getElementsByTagName('a');
+			
+				for (var i=0; i<aA.length; i++) {
+					aA[i].index =i;
+					aA[i].onclick = function(){
+						var nowNum = parseInt(this.getAttribute('href').substring(1));
+						
+						obj.innerHTML='';
+						page({
+							id:opt.id,
+							nowNum:nowNum,
+							allNum:allNum,
+							callBack:callBack
+						});
+						
+						return false;
+					}
+				}
+				};
+			
+			
+			
+			};
+			
+			
+		</script>
+	</head>
+	<body>
+		<ul id="ul1"></ul>
+		
+		<div id="div1">
+			<!--<a href="#">首页</a>
+			<a href="#">上一页</a>
+			<a href="#">[2]</a>
+			<a href="#">[3]</a>
+			<a href="#">4</a>
+			<a href="#">[5]</a>
+			<a href="#">[6]</a>
+			<a href="#">下一页</a>
+			<a href="#">尾页</a>-->
+		</div>
+	</body>
+</html>

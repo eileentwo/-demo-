@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			ul {
+				position: relative;
+				list-style: none;
+				width: 1000px;
+				margin: 0 auto;
+			}
+			li {
+				width: 300px;
+				position: absolute;
+			}
+			li img {
+				width: 100%;
+				/*height: auto;*/
+			}
+		</style>
+	</head>
+	<body>
+		<ul>
+			<!--<li><img src="../../JQ-/img/01.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/4.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/A3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/2.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/bg.png"/>222222</li>
+			<li><img src="../../JQ-/img/4.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/03.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/1.png"/>11111111111</li>
+			<li><img src="../../JQ-/img/01.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/bg.png"/>222222</li>
+			<li><img src="../../JQ-/img/A3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/3.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/4.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/bg.png"/>222222</li>
+			<li><img src="../../JQ-/img/01.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/A3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/03.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/2.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/A3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/01.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/bg.png"/>222222</li>
+			<li><img src="../../JQ-/img/1.png"/>11111111111</li>
+			<li><img src="../../JQ-/img/01.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/3.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/4.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/b3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/4.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/01.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/1.png"/>11111111111</li>
+			<li><img src="../../JQ-/img/A3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/3.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/01.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/b3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/bg.png"/>222222</li>
+			<li><img src="../../JQ-/img/4.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/03.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/b3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/01.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/1.png"/>11111111111</li>
+			<li><img src="../../JQ-/img/b3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/3.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/b3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/2.jpg"/>11111111111</li>
+			<li><img src="../../JQ-/img/b3.jpg"/>222222</li>
+			<li><img src="../../JQ-/img/4.jpg"/>11111111111</li>-->
+		</ul>
+		
+		<script src="../ajax.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function (){
+				var ul = document.getElementsByTagName('ul')[0];
+				var aLi =  document.getElementsByTagName('li');
+				var aHeight = {L:[],C:[],R:[]};  //存放每个Li的高度
+				var src =[];
+				for(var i=0; i<aLi.length; i++){
+					
+					
+				}
+			}	
+		/*		var xhr;   //创建一个ajax对象
+				if (window.XMLHttpRequest) {
+				    xhr = new XMLHttpRequest();
+				} else {
+				    xhr = new ActiveXObject('Microsoft.XMLHTTP');
+				}
+			    xhr.open('GET','data.json',true);    //建立连接，参数一：发送方式，二：请求地址，三：是否异步，true为异步
+			    xhr.onreadystatechange = function(event){    //对ajax对象进行监听
+			        if(xhr.readyState == 4){    //4表示解析完毕
+			            if(xhr.status == 200){    //200为正常返回
+			                
+//			                JSON.stringify()，将JSON对象转换为JSON类型的字符串
+//							JSON.parse()，将JSON类型的字符串转换为JSON对象
+//							eval()将json字符串，转变成一个真正的json对象
+			                var json = eval("("+xhr.responseText+")");
+//					    		console.log(json)
+					    	for (var i=0; i<json.imgSrc.length;i++) {
+					    		var oLi = document.createElement('li');
+					    		oLi.innerHTML = '<img src="'+ json.imgSrc[i] +'" />222222222222222';
+					    		ul.appendChild(oLi);
+					    	}
+					    	
+						for (var i=0; i<aLi.length; i++ ) {
+								var iNow = i % 3;
+								
+										console.log(aLi[0].offsetHeight)
+								switch (iNow){
+									case 0:
+										aLi[i].style.left =0;
+//										step(aLi[i],aHeight.L,i);
+									break;
+									case 1:
+										aLi[i].style.left ='310px';
+										
+//										step(aLi[i],aHeight.C,i);
+									break;
+									case 2:
+										aLi[i].style.left ='620px';
+//										step(aLi[i],aHeight.R,i);
+									break;
+								}
+							}
+//							function step(obj,aHeight,i){
+//								aHeight.push(obj.offsetHeight);   //当前高度
+//								
+//								var step = Math.floor(i/3);   //向下取整的方式来获取是放在左边的每个i
+//								
+//								if(!step){
+//									obj.style.top='0';  //如果step=0;那么每个的top值就是
+//									
+//								}else{
+//									var sum=0;   //有多少
+//									for (var j=0; j<step; j++) {
+//										sum +=aHeight[j] +10;        //依次获取相对应的高度
+//									}
+//									obj.style.top=sum +'px';
+//								}
+//							}
+			            }
+			        }
+			    };
+			    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');    //可有可无
+			    xhr.send();        //发送
+				
+			}
+			*/
+		</script>
+	</body>
+</html>
